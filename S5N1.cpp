@@ -33,12 +33,12 @@ public:
 
     iterator begin() { return ptr; }
     const_iterator begin() const { return ptr; }
-    iterator end() { return ptr + Count; }
-    const_iterator end() const { return ptr + Count; }
+    iterator end() { return ptr + ReplacedCount; }
+    const_iterator end() const { return ptr + ReplacedCount; }
 
     size_type size() const
     {
-        return Count;
+        return ReplacedCount;
     }
 
     void resize(size_type newsize);
@@ -51,7 +51,7 @@ public:
     // текущий размер массива
     bool empty() const
     {
-        if (Count == 0)
+        if (ReplacedCount == 0)
             return true;
         else
             return false;
@@ -77,19 +77,19 @@ public:
 
     void pop_back()
     {
-        ptr[Count - 1] = 0;
-        Count--;
+        ptr[ReplacedCount - 1] = 0;
+        ReplacedCount--;
     }
 
     // очистить массив
     void clear()
     {
-        Count = 0;
+        ReplacedCount = 0;
     }
 
     void show()
     {
-        for (int i = 0; i < Count; i++)
+        for (int i = 0; i < ReplacedCount; i++)
         {
             std::cout.precision(3);
             std::cout << std::fixed << ptr[i] << " ";
@@ -102,7 +102,7 @@ private:
     value_type* ptr;
 
     // количество элементов в массиве
-    size_type Count;
+    size_type ReplacedCount;
 
     // минимальный размер массива
     static const size_type min = 10;
@@ -147,17 +147,17 @@ void helper(Array& arr)
 
 void Array::push_back(const value_type& v)
 {
-    if (Count == sizemem)
+    if (ReplacedCount == sizemem)
         resize(sizemem * 2);
 
-    ptr[Count++] = v;
+    ptr[ReplacedCount++] = v;
 }
 
 void Array::resize(size_type newsize)
 {
     value_type* s = new value_type[newsize];
 
-    for (size_type i = 0; i < Count; ++i)
+    for (size_type i = 0; i < ReplacedCount; ++i)
         s[i] = ptr[i];
 
     delete[] ptr;
@@ -176,7 +176,7 @@ Array::Array(iterator first, iterator last)
         for (int i = 0; i < sizemem; ++i)
             ptr[i] = *(first + i);
 
-        Count = sizemem;
+        ReplacedCount = sizemem;
     }
 }
 
@@ -184,18 +184,18 @@ Array::Array(const size_type n)
 {
     sizemem = n;
     ptr = new value_type[n];
-    Count = 0;
+    ReplacedCount = 0;
 }
 
 double& Array::operator[](size_type index)
 {
-    if (index < Count)
+    if (index < ReplacedCount)
         return ptr[index];
 }
 
 const double& Array::operator[](size_type index) const
 {
-    if (index < Count)
+    if (index < ReplacedCount)
         return ptr[index];
 }
 
