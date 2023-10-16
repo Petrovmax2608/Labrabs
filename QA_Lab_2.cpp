@@ -36,13 +36,13 @@ double checker(double a)
     return a;
 }
 
-double toochecker(double param)
+double toochecker(double newparam)
 {
     while (true)
     {
         try
         {
-            if (!(std::cin >> param))
+            if (!(std::cin >> newparam))
             {
                 std::cin.clear();
 
@@ -51,7 +51,7 @@ double toochecker(double param)
                 throw "Value is non digit!";
             }
             else
-                if (param < -10 || param > 10)
+                if (newparam < -10 || newparam > 10)
                     throw "Value is not valid";
                 else
                     break;
@@ -65,7 +65,7 @@ double toochecker(double param)
             std::cout << "Type new agument value: ";
         }
     }
-    return param;
+    return newparam;
 }
 
 
