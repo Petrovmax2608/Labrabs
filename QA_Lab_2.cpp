@@ -4,13 +4,14 @@
 #include <vector>
 #include <algorithm>
 
-double checker(double a)
+
+double checker(double param)
 {
     while (true)
     {
         try
         {
-            if (!(std::cin >> a))
+            if (!(std::cin >> param))
             {
                 std::cin.clear();
 
@@ -19,11 +20,7 @@ double checker(double a)
                 throw "Value is non digit!";
             }
             else
-                if (a == 0 || a < -10 || a > 10)
-                    throw "Value is not valid";
-                else
-                    break;
-
+                break;
         }
 
         catch (const char* exception)
@@ -33,43 +30,11 @@ double checker(double a)
             std::cout << "Type new agument value: ";
         }
     }
-    return a;
-}
-
-double toochecker(double newparam)
-{
-    while (true)
-    {
-        try
-        {
-            if (!(std::cin >> newparam))
-            {
-                std::cin.clear();
-
-                while (std::cin.get() != '\n');
-
-                throw "Value is non digit!";
-            }
-            else
-                if (newparam < -10 || newparam > 10)
-                    throw "Value is not valid";
-                else
-                    break;
-
-        }
-
-        catch (const char* exception)
-        {
-            std::cout << exception << '\n';
-
-            std::cout << "Type new agument value: ";
-        }
-    }
-    return newparam;
+    return param;
 }
 
 
-std::complex<double> cubeRoot(std::complex<double> z) 
+std::complex<double> cubeRoot(std::complex<double> z)
 {
     std::complex<double> i(0, 1);
 
@@ -79,7 +44,7 @@ std::complex<double> cubeRoot(std::complex<double> z)
     return std::polar(std::cbrt(r), phi / 3);
 }
 
-std::vector<std::complex<double>> solution(double a, double b, double c, double d) 
+std::vector<std::complex<double>> solution(double a, double b, double c, double d)
 
 {
     b /= a;
@@ -109,7 +74,7 @@ std::vector<std::complex<double>> solution(double a, double b, double c, double 
     return roots;
 }
 
-void printComplex(const std::complex<double>& c) 
+void printComplex(const std::complex<double>& c)
 {
     std::cout << c.real();
 }
@@ -117,21 +82,54 @@ void printComplex(const std::complex<double>& c)
 int main() {
     double a = 0, b = 0, c = 0, d = 0;
 
-    std::cout << "Type argument a value:";
+    std::cout << "Type arguments value: ";
 
     a = checker(a);
 
-    std::cout << "Type other arguments value:";
+    b = checker(b);
 
-    b = toochecker(b);
+    c = checker(c);
 
-    c = toochecker(c);
+    d = checker(d);
 
-    d = toochecker(d);
+    // Проверка на вырожденное уравнение (все коэффициенты = 0)
+    if (a == 0 && b == 0 && c == 0 && d == 0) {
+        std::cout << "The equation has infinitely many solutions\n";
+        return 0;
+    }
 
+    // Проверка на вырожденное уравнение (все коэффициенты, кроме свободного члена, = 0)
+    if (a == 0 && b == 0 && c == 0 && d != 0) {
+        std::cout << "The equation has no solutions\n";
+        return 0;
+    }
+
+    // Проверка на линейное уравнение
+    if (a == 0 && b == 0 && c != 0) {
+        std::cout << "x = " << -d / c << "\n";
+        return 0;
+    }
+
+    // Проверка на квадратное уравнение
+    if (a == 0 && b != 0) {
+        double D = c * c - 4 * b * d;
+        if (D < 0) {
+            std::cout << "The equation has no real solutions\n";
+        }
+        else if (D == 0) {
+            std::cout << "x = " << -c / (2 * b) << "\n";
+        }
+        else {
+            std::cout << "x1 = " << (-c + sqrt(D)) / (2 * b) << "\n";
+            std::cout << "x2 = " << (-c - sqrt(D)) / (2 * b) << "\n";
+        }
+        return 0;
+    }
+
+    // Решение кубического уравнения
     auto roots = solution(a, b, c, d);
 
-    for (int i = 1; i <= roots.size(); ++i) 
+    for (int i = 1; i <= roots.size(); ++i)
     {
         std::cout << "x" << i << ": ";
 
@@ -142,3 +140,4 @@ int main() {
 
     return 0;
 }
+
